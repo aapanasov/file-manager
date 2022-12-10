@@ -1,6 +1,7 @@
 import { createInterface } from 'node:readline/promises';
 import { homedir } from 'node:os';
-import { sep } from 'node:path';
+import { join, sep } from 'node:path';
+import { readdir, stat } from 'node:fs/promises';
 
 
 const colors = {
@@ -38,6 +39,10 @@ while (true) {
       currentDir = onUp(currentDir);
       break;
 
+    case 'ls':
+      await onLs(currentDir);
+      break;
+
     default:
       console.log(colors.red, 'Invalid input', colors.reset);
       break;
@@ -54,5 +59,34 @@ function onUp(dir) {
   if (dir === '/') return dir;
 
   return dir.split(sep).slice(0, -1).join(sep);
+}
+
+async function onLs(dir) {
+  try {
+    const dirContent = await readdir(dir);
+
+    const dirContentPromises = dirContent.map(async (item) => {
+      const path = join(dir, item);
+
+      try {
+        const itemStats = await stat(path);
+        return {
+          Name: item,
+          Type: itemStats.isDirectory() ? 'directory' : 'file'
+        };
+      } catch (error) {
+        return {
+          Name: item,
+          Type: 'file'
+        };
+      }
+    });
+
+    const result = await Promise.all(dirContentPromises);
+    console.table(result);
+
+  } catch (error) {
+    console.log(colors.red, 'Operation failed', colors.reset);
+  }
 }
 
