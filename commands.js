@@ -1,6 +1,6 @@
 import { colors } from './constants.js';
 import { isAbsolute, join, sep } from 'node:path';
-import { access, constants, readdir, stat } from 'node:fs/promises';
+import { access, constants, readdir, stat, readFile } from 'node:fs/promises';
 
 
 export function exit(name) {
@@ -40,7 +40,7 @@ export async function ls(dir) {
     console.table(result);
 
   } catch (error) {
-    console.log(colors.red, 'Operation failed', colors.reset, error);
+    console.log(colors.red, 'Operation failed', colors.reset);
   }
 }
 
@@ -52,9 +52,20 @@ export async function cd(currentDir, destinationDir) {
     await access(dir, constants.R_OK | constants.W_OK);
     return dir;
   } catch (error) {
-    console.log(colors.red, 'Operation failed', colors.reset, error);
+    console.log(colors.red, 'Operation failed', colors.reset);
     return currentDir;
   }
 
+}
+
+export async function cat(currentDir, filePath) {
+  const path = isAbsolute(filePath) ? filePath : join(currentDir, filePath);
+
+  try {
+    const content = await readFile(path, { encoding: 'utf8' });
+    console.log(content);
+  } catch (error) {
+    console.log(colors.red, 'Operation failed', colors.reset);
+  }
 }
 
