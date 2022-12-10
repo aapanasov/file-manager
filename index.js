@@ -46,6 +46,10 @@ while (true) {
       await cmd.cat(currentDir, commandArgs);
       break;
 
+    case 'add':
+      await cmd.add(currentDir, commandArgs);
+      break;
+
     default:
       console.log(colors.red, 'Invalid input', colors.reset);
       break;
