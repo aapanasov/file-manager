@@ -43,7 +43,7 @@ while (true) {
       break;
 
     case 'cat':
-      await cmd.cat(currentDir, commandArgs);
+      cmd.cat(currentDir, commandArgs);
       break;
 
     case 'add':

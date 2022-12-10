@@ -1,6 +1,7 @@
 import { colors } from './constants.js';
 import { isAbsolute, join, sep } from 'node:path';
 import { access, constants, readdir, stat, readFile, open } from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
 
 
 export function exit(name) {
@@ -58,15 +59,15 @@ export async function cd(currentDir, destinationDir) {
 
 }
 
-export async function cat(currentDir, filePath) {
+// TODO: fix cat async output
+export function cat(currentDir, filePath) {
   const path = isAbsolute(filePath) ? filePath : join(currentDir, filePath);
 
-  try {
-    const content = await readFile(path, { encoding: 'utf8' });
-    console.log(content);
-  } catch (error) {
+  const fileStream = createReadStream(path, { encoding: 'utf8' });
+  fileStream.on('data', (chunk) => process.stdout.write(chunk));
+  fileStream.on('error', (err) => {
     console.log(colors.red, 'Operation failed', colors.reset);
-  }
+  });
 }
 
 export async function add(currentDir, filePath) {
