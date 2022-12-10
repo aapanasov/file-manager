@@ -22,8 +22,10 @@ readline.on('close', () => cmd.exit(userName));
 
 while (true) {
   const answer = await readline.question(`You are currently in ${colors.green}${currentDir}\n$>${colors.reset} `);
+  const [command, ...commandArgs] = answer.trim().split(' ');
+  const dirPath = commandArgs.join(' ');
 
-  switch (answer.trim().split(' ')[0]) {
+  switch (command) {
     case '.exit':
       cmd.exit(userName);
       break;
@@ -34,6 +36,10 @@ while (true) {
 
     case 'ls':
       await cmd.ls(currentDir);
+      break;
+
+    case 'cd':
+      currentDir = await cmd.cd(currentDir, dirPath);
       break;
 
     default:
