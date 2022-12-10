@@ -51,6 +51,7 @@ function onExit() {
 
 function onUp(dir) {
   if (dir.length === 2 && dir[1] === ':') return dir;
+  if (dir === '/') return dir;
 
   return dir.split(sep).slice(0, -1).join(sep);
 }
