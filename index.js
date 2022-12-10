@@ -12,7 +12,7 @@ const colors = {
 
 const args = process.argv[2]?.split('=');
 
-if (!(args[0] === '--username' && args[1])) {
+if (!(args && args[0] === '--username' && args[1])) {
   console.log('Please start in following way:', colors.yellow, 'npm run start -- --username=your_username', colors.reset);
   process.exit();
 }
