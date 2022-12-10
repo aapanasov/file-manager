@@ -2,14 +2,8 @@ import { createInterface } from 'node:readline/promises';
 import { homedir } from 'node:os';
 import { join, sep } from 'node:path';
 import { readdir, stat } from 'node:fs/promises';
+import { colors } from './constants.js';
 
-
-const colors = {
-  yellow: '\x1b[33m',
-  green: '\x1b[32m',
-  red: '\x1b[31m',
-  reset: '\x1b[0m'
-};
 
 const args = process.argv[2]?.split('=');
 
