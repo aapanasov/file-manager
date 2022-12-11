@@ -17,7 +17,7 @@ let currentDir = homedir();
 
 console.log(`Welcome to the File Manager, ${colors.yellow}${userName}!${colors.reset}`);
 
-const readline = createInterface({ input: process.stdin, output: process.stdout });
+const readline = createInterface({ input: process.stdin, output: process.stdout, terminal: false });
 readline.on('close', () => cmd.exit(userName));
 
 while (true) {
