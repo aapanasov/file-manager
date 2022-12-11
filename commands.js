@@ -1,6 +1,6 @@
 import { colors } from './constants.js';
 import { isAbsolute, join, sep } from 'node:path';
-import { access, constants, readdir, stat, readFile, open } from 'node:fs/promises';
+import { access, constants, readdir, stat, open } from 'node:fs/promises';
 import { createReadStream } from 'node:fs';
 
 
