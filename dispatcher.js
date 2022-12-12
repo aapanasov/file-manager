@@ -6,6 +6,9 @@ import { colors } from './constants.js';
 export async function dispatcher(currentDir, command, commandArgs) {
   let newCurrentDir = currentDir;
 
+  // console.log('Command:', command);
+  // console.log('Args:', commandArgs);
+
   switch (command) {
 
     case 'up':
@@ -26,6 +29,10 @@ export async function dispatcher(currentDir, command, commandArgs) {
 
     case 'add':
       await cmd.add(currentDir, commandArgs);
+      break;
+
+    case 'rn':
+      await cmd.rn(currentDir, commandArgs);
       break;
 
     default:

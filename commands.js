@@ -1,7 +1,8 @@
 import { colors } from './constants.js';
 import { isAbsolute, join, sep } from 'node:path';
-import { access, constants, readdir, stat, open } from 'node:fs/promises';
+import { access, constants, readdir, stat, open, rename } from 'node:fs/promises';
 import { createReadStream } from 'node:fs';
+import { splitArgs } from './helpers.js';
 
 
 export function exit(name) {
@@ -81,4 +82,21 @@ export async function add(currentDir, filePath) {
     throw error;
   }
 }
+
+export async function rn(currentDir, args) {
+  const [src, dest] = splitArgs(args);
+
+  const filePath = isAbsolute(src) ? src : join(currentDir, src);
+  const newFilename = isAbsolute(dest) ? dest : join(currentDir, dest);
+
+  console.log(filePath);
+  console.log(newFilename);
+
+  try {
+    await rename(filePath, newFilename);
+  } catch (error) {
+    throw error;
+  }
+}
+
 
