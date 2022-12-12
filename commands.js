@@ -1,8 +1,8 @@
 import { colors } from './constants.js';
-import { isAbsolute, join, sep } from 'node:path';
+import { join, sep } from 'node:path';
 import { access, constants, readdir, stat, open, rename } from 'node:fs/promises';
 import { createReadStream } from 'node:fs';
-import { splitArgs } from './helpers.js';
+import { makePath, splitArgs } from './helpers.js';
 
 
 export function exit(name) {
@@ -48,7 +48,7 @@ export async function ls(dir) {
 
 export async function cd(currentDir, destinationDir) {
 
-  const dir = isAbsolute(destinationDir) ? destinationDir : join(currentDir, destinationDir);
+  const dir = makePath(currentDir, destinationDir);
 
   try {
     await access(dir, constants.R_OK | constants.W_OK);
@@ -60,7 +60,7 @@ export async function cd(currentDir, destinationDir) {
 }
 
 export async function cat(currentDir, filePath) {
-  const path = isAbsolute(filePath) ? filePath : join(currentDir, filePath);
+  const path = makePath(currentDir, filePath);
 
   const syncPromise = new Promise((resolve, reject) => {
     const fileStream = createReadStream(path, { encoding: 'utf8' });
@@ -73,7 +73,8 @@ export async function cat(currentDir, filePath) {
 }
 
 export async function add(currentDir, filePath) {
-  const path = isAbsolute(filePath) ? filePath : join(currentDir, filePath);
+  const path = makePath(currentDir, filePath);
+
   try {
     const fileHandle = await open(path, 'ax');
     await fileHandle.close();
@@ -86,8 +87,8 @@ export async function add(currentDir, filePath) {
 export async function rn(currentDir, args) {
   const [src, dest] = splitArgs(args);
 
-  const filePath = isAbsolute(src) ? src : join(currentDir, src);
-  const newFilename = isAbsolute(dest) ? dest : join(currentDir, dest);
+  const filePath = makePath(currentDir, src);
+  const newFilename = makePath(currentDir, dest);
 
   console.log(filePath);
   console.log(newFilename);
