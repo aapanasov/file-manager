@@ -28,7 +28,11 @@ readline.on('line', async (line) => {
   const [command, ...tail] = input.split(' ');
   const commandArgs = tail.join(' ');
 
-  currentDir = await dispatcher(currentDir, command, commandArgs);
+  try {
+    currentDir = await dispatcher(currentDir, command, commandArgs);
+  } catch (error) {
+    console.log(colors.red, 'Operation failed', colors.reset);
+  }
 
   process.stdout.write(`\nYou are currently in ${colors.green}${currentDir}\n$>${colors.reset} `);
 });

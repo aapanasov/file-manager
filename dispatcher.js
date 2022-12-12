@@ -21,7 +21,7 @@ export async function dispatcher(currentDir, command, commandArgs) {
       break;
 
     case 'cat':
-      cmd.cat(currentDir, commandArgs);
+      await cmd.cat(currentDir, commandArgs);
       break;
 
     case 'add':

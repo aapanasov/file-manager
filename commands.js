@@ -41,7 +41,7 @@ export async function ls(dir) {
     console.table(result);
 
   } catch (error) {
-    console.log(colors.red, 'Operation failed', colors.reset);
+    throw error;
   }
 }
 
@@ -53,21 +53,22 @@ export async function cd(currentDir, destinationDir) {
     await access(dir, constants.R_OK | constants.W_OK);
     return dir;
   } catch (error) {
-    console.log(colors.red, 'Operation failed', colors.reset);
-    return currentDir;
+    throw error;
   }
 
 }
 
-// TODO: fix cat async output
-export function cat(currentDir, filePath) {
+export async function cat(currentDir, filePath) {
   const path = isAbsolute(filePath) ? filePath : join(currentDir, filePath);
 
-  const fileStream = createReadStream(path, { encoding: 'utf8' });
-  fileStream.on('data', (chunk) => process.stdout.write(chunk));
-  fileStream.on('error', (err) => {
-    console.log(colors.red, 'Operation failed', colors.reset);
+  const syncPromise = new Promise((resolve, reject) => {
+    const fileStream = createReadStream(path, { encoding: 'utf8' });
+    fileStream.on('data', (chunk) => process.stdout.write(chunk));
+    fileStream.on('error', reject);
+    fileStream.on('end', resolve);
   });
+
+  await syncPromise;
 }
 
 export async function add(currentDir, filePath) {
@@ -77,7 +78,7 @@ export async function add(currentDir, filePath) {
     await fileHandle.close();
 
   } catch (error) {
-    console.log(colors.red, 'Operation failed', colors.reset);
+    throw error;
   }
 }
 
