@@ -1,6 +1,6 @@
-import * as cmd from './commands.js';
-import * as nwd from './navigation.js';
 import { colors } from './constants.js';
+import * as nwd from './navigation.js';
+import * as fo from './file-operations.js';
 
 
 
@@ -25,27 +25,27 @@ export async function dispatcher(currentDir, command, commandArgs) {
       break;
 
     case 'cat':
-      await cmd.cat(currentDir, commandArgs);
+      await fo.cat(currentDir, commandArgs);
       break;
 
     case 'add':
-      await cmd.add(currentDir, commandArgs);
+      await fo.add(currentDir, commandArgs);
       break;
 
     case 'rn':
-      await cmd.rn(currentDir, commandArgs);
+      await fo.rn(currentDir, commandArgs);
       break;
 
     case 'cp':
-      await cmd.cp(currentDir, commandArgs);
+      await fo.cp(currentDir, commandArgs);
       break;
 
     case 'mv':
-      await cmd.mv(currentDir, commandArgs);
+      await fo.mv(currentDir, commandArgs);
       break;
 
     case 'rm':
-      await cmd.remove(currentDir, commandArgs);
+      await fo.remove(currentDir, commandArgs);
       break;
 
     default:
