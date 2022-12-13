@@ -39,6 +39,10 @@ export async function dispatcher(currentDir, command, commandArgs) {
       await cmd.cp(currentDir, commandArgs);
       break;
 
+    case 'rm':
+      await cmd.remove(currentDir, commandArgs);
+      break;
+
     default:
       console.log(colors.red, 'Invalid input', colors.reset);
       break;

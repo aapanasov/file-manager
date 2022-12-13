@@ -1,6 +1,6 @@
 import { colors } from './constants.js';
 import { basename, join, sep } from 'node:path';
-import { access, constants, readdir, stat, open, rename } from 'node:fs/promises';
+import { access, constants, readdir, stat, open, rename, rm } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { makePath, splitArgs } from './helpers.js';
 
@@ -118,3 +118,12 @@ export async function cp(currentDir, args) {
   await syncPromise;
 }
 
+export async function remove(currentDir, args) {
+  const filePath = makePath(currentDir, args);
+
+  try {
+    await rm(filePath);
+  } catch (error) {
+    throw error;
+  }
+}
