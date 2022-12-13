@@ -127,3 +127,11 @@ export async function remove(currentDir, args) {
     throw error;
   }
 }
+
+export async function mv(currentDir, args) {
+  await cp(currentDir, args);
+
+  const [fileToRemove] = splitArgs(args);
+
+  await remove(currentDir, fileToRemove);
+}
