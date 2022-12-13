@@ -2,7 +2,6 @@ import { createInterface } from 'node:readline/promises';
 import { homedir } from 'node:os';
 import { colors } from './constants.js';
 import { dispatcher } from './dispatcher.js';
-import { exit } from './commands.js';
 
 const args = process.argv[2]?.split('=');
 

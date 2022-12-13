@@ -1,6 +1,6 @@
 import { join, sep } from 'node:path';
 import { access, constants, readdir, stat } from 'node:fs/promises';
-import { makePath } from './helpers.js';
+import { makePath } from '../helpers.js';
 
 
 export function up(dir) {

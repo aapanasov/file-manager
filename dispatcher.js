@@ -1,6 +1,7 @@
 import { colors } from './constants.js';
-import * as nwd from './navigation.js';
+import * as nwd from './commands/navigation.js';
 import * as fo from './commands/file-operations.js';
+import { osInfo } from './commands/os-info.js';
 
 
 
@@ -46,6 +47,10 @@ export async function dispatcher(currentDir, command, commandArgs) {
 
     case 'rm':
       await fo.remove(currentDir, commandArgs);
+      break;
+
+    case 'os':
+      osInfo(commandArgs);
       break;
 
     default:
