@@ -1,6 +1,6 @@
 import { colors } from './constants.js';
 import * as nwd from './navigation.js';
-import * as fo from './file-operations.js';
+import * as fo from './commands/file-operations.js';
 
 
 

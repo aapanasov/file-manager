@@ -1,7 +1,7 @@
 import { basename, join } from 'node:path';
 import { open, rename, rm } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
-import { makePath, splitArgs } from './helpers.js';
+import { makePath, splitArgs } from '../helpers.js';
 
 export async function cat(currentDir, filePath) {
   const path = makePath(currentDir, filePath);
