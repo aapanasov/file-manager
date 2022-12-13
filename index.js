@@ -37,3 +37,9 @@ readline.on('line', async (line) => {
 
   process.stdout.write(`\nYou are currently in ${colors.green}${currentDir}\n$>${colors.reset} `);
 });
+
+
+function exit(name) {
+  console.log(`\nThank you for using File Manager, ${colors.yellow}${name}${colors.reset}, goodbye!`);
+  process.exit();
+};
