@@ -35,6 +35,10 @@ export async function dispatcher(currentDir, command, commandArgs) {
       await cmd.rn(currentDir, commandArgs);
       break;
 
+    case 'cp':
+      await cmd.cp(currentDir, commandArgs);
+      break;
+
     default:
       console.log(colors.red, 'Invalid input', colors.reset);
       break;

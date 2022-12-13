@@ -1,7 +1,7 @@
 import { colors } from './constants.js';
-import { join, sep } from 'node:path';
+import { basename, join, sep } from 'node:path';
 import { access, constants, readdir, stat, open, rename } from 'node:fs/promises';
-import { createReadStream } from 'node:fs';
+import { createReadStream, createWriteStream } from 'node:fs';
 import { makePath, splitArgs } from './helpers.js';
 
 
@@ -90,9 +90,6 @@ export async function rn(currentDir, args) {
   const filePath = makePath(currentDir, src);
   const newFilename = makePath(currentDir, dest);
 
-  console.log(filePath);
-  console.log(newFilename);
-
   try {
     await rename(filePath, newFilename);
   } catch (error) {
@@ -100,4 +97,24 @@ export async function rn(currentDir, args) {
   }
 }
 
+export async function cp(currentDir, args) {
+  const [src, dest] = splitArgs(args);
+
+  const filePath = makePath(currentDir, src);
+  const newDirPath = makePath(currentDir, dest);
+  const newFilePath = join(newDirPath, basename(filePath));
+
+  const syncPromise = new Promise((resolve, reject) => {
+    const streamToRead = createReadStream(filePath);
+    const streamToWrite = createWriteStream(newFilePath, { flags: 'wx' });
+
+    streamToRead.on('end', resolve);
+    streamToRead.on('error', reject);
+    streamToWrite.on('error', reject);
+
+    streamToRead.pipe(streamToWrite);
+  });
+
+  await syncPromise;
+}
 
