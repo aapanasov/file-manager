@@ -1,4 +1,5 @@
 import * as cmd from './commands.js';
+import * as nwd from './navigation.js';
 import { colors } from './constants.js';
 
 
@@ -12,15 +13,15 @@ export async function dispatcher(currentDir, command, commandArgs) {
   switch (command) {
 
     case 'up':
-      newCurrentDir = cmd.up(currentDir);
+      newCurrentDir = nwd.up(currentDir);
       break;
 
     case 'ls':
-      await cmd.ls(currentDir);
+      await nwd.ls(currentDir);
       break;
 
     case 'cd':
-      newCurrentDir = await cmd.cd(currentDir, commandArgs);
+      newCurrentDir = await nwd.cd(currentDir, commandArgs);
       break;
 
     case 'cat':
