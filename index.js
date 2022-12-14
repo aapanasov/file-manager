@@ -42,3 +42,5 @@ function exit(name) {
   console.log(`\nThank you for using File Manager, ${colors.yellow}${name}${colors.reset}, goodbye!`);
   process.exit();
 };
+
+// TODO: Check operations on destination files exist

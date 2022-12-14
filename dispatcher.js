@@ -2,6 +2,7 @@ import { colors } from './constants.js';
 import * as nwd from './commands/navigation.js';
 import * as fo from './commands/file-operations.js';
 import { osInfo } from './commands/os-info.js';
+import { calcHash } from './commands/hash.js';
 
 
 
@@ -51,6 +52,10 @@ export async function dispatcher(currentDir, command, commandArgs) {
 
     case 'os':
       osInfo(commandArgs);
+      break;
+
+    case 'hash':
+      await calcHash(currentDir, commandArgs);
       break;
 
     default:
