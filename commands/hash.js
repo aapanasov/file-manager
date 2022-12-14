@@ -1,19 +1,25 @@
 import { createHash } from 'node:crypto';
 import { makePath } from '../helpers.js';
-import { readFile } from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
 
 
-// TODO: fix to calc hash for files larger than 2Gb
 export async function calcHash(currentDir, args) {
-
   const filePath = makePath(currentDir, args);
 
+  const hashSum = (filePath) => new Promise((resolve, reject) => {
+    const hash = createHash('sha256');
+    const fileStream = createReadStream(filePath);
+
+    fileStream.on('error', reject);
+    fileStream.on('data', (chunk) => hash.update(chunk));
+    fileStream.on('end', () => resolve(hash.digest('hex')));
+
+  });
+
   try {
-    const fileBuffer = await readFile(filePath);
-    const hashSum = createHash('sha256').update(fileBuffer).digest('hex');
-    console.log(hashSum);
+    const result = await hashSum(filePath);
+    console.log(result);
   } catch (error) {
     throw error;
   }
-
-};
+}
