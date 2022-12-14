@@ -1,4 +1,5 @@
 import { isAbsolute, join } from 'node:path';
+import { access } from 'fs/promises';
 
 /**
  Split args string by ", ' or space.
@@ -17,3 +18,12 @@ export function splitArgs(args) {
 export function makePath(currentDir, path) {
   return isAbsolute(path) ? path : join(currentDir, path);
 }
+
+export const isExist = async (path) => {
+  try {
+    await access(path);
+    return true;
+  } catch {
+    return false;
+  }
+};

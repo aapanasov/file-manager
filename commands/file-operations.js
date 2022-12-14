@@ -1,7 +1,7 @@
-import { basename, join } from 'node:path';
+import { basename, dirname, join } from 'node:path';
 import { open, rename, rm } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
-import { makePath, splitArgs } from '../helpers.js';
+import { isExist, makePath, splitArgs } from '../helpers.js';
 
 export async function cat(currentDir, filePath) {
   const path = makePath(currentDir, filePath);
@@ -32,10 +32,14 @@ export async function rn(currentDir, args) {
   const [src, dest] = splitArgs(args);
 
   const filePath = makePath(currentDir, src);
-  const newFilename = makePath(currentDir, dest);
+  const basedir = dirname(filePath);
+  const newFilename = basename(makePath(currentDir, dest));
+  const newFilePath = join(basedir, newFilename);
+
+  if (await isExist(newFilePath)) throw new Error('File already exist!');
 
   try {
-    await rename(filePath, newFilename);
+    await rename(filePath, newFilePath);
   } catch (error) {
     throw error;
   }
