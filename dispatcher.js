@@ -3,6 +3,7 @@ import * as nwd from './commands/navigation.js';
 import * as fo from './commands/file-operations.js';
 import { osInfo } from './commands/os-info.js';
 import { calcHash } from './commands/hash.js';
+import { zip } from './commands/zip.js';
 
 
 
@@ -56,6 +57,14 @@ export async function dispatcher(currentDir, command, commandArgs) {
 
     case 'hash':
       await calcHash(currentDir, commandArgs);
+      break;
+
+    case 'compress':
+      await zip(true, currentDir, commandArgs);
+      break;
+
+    case 'decompress':
+      await zip(false, currentDir, commandArgs);
       break;
 
     default:
