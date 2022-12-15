@@ -10,6 +10,7 @@ export function up(dir) {
   return dir.split(sep).slice(0, -1).join(sep);
 }
 
+
 export async function ls(dir) {
   try {
     const dirContent = await readdir(dir);
@@ -32,7 +33,11 @@ export async function ls(dir) {
     });
 
     const result = await Promise.all(dirContentPromises);
-    console.table(result);
+    const sortedResult = result
+      .sort((a, b) => a['Name'].toLowerCase() < b['Name'].toLowerCase() ? 1 : -1)
+      .sort((a, b) => a['Type'] > b['Type'] ? 1 : -1);
+
+    console.table(sortedResult);
 
   } catch (error) {
     throw error;
