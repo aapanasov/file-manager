@@ -45,6 +45,7 @@ export async function ls(dir) {
 }
 
 export async function cd(currentDir, destinationDir) {
+
   const dir = makePath(currentDir, destinationDir);
 
   try {
