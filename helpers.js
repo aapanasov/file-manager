@@ -1,4 +1,4 @@
-import { isAbsolute, join } from 'node:path';
+import { isAbsolute, join, normalize } from 'node:path';
 import { access } from 'fs/promises';
 
 /**
@@ -16,7 +16,9 @@ export function splitArgs(args) {
 }
 
 export function makePath(currentDir, path) {
-  return isAbsolute(path) ? path : join(currentDir, path);
+  const pathToGo = isAbsolute(path) ? join(path) : join(currentDir, path);
+  const normalPath = normalize(pathToGo);
+  return normalPath === '\\' ? currentDir.slice(0, 3) : normalPath;
 }
 
 export const isExist = async (path) => {
