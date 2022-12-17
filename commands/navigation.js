@@ -3,11 +3,8 @@ import { access, constants, readdir, stat } from 'node:fs/promises';
 import { makePath } from '../helpers.js';
 
 
-export function up(dir) {
-  if (dir.length === 2 && dir[1] === ':') return dir;
-  if (dir === '/') return dir;
-
-  return dir.split(sep).slice(0, -1).join(sep);
+export function up(currentDir) {
+  return makePath(currentDir, '..');
 }
 
 
