@@ -54,13 +54,23 @@ export async function cp(currentDir, args) {
 
   const syncPromise = new Promise((resolve, reject) => {
     const streamToRead = createReadStream(filePath);
-    const streamToWrite = createWriteStream(newFilePath, { flags: 'wx' });
+
+    streamToRead.on('ready', () => {
+      const streamToWrite = createWriteStream(newFilePath, { flags: 'wx' });
+
+      streamToWrite.on('error', () => {
+        streamToRead.close();
+        reject('write error');
+      });
+
+      streamToRead.pipe(streamToWrite);
+    });
 
     streamToRead.on('end', resolve);
-    streamToRead.on('error', reject);
-    streamToWrite.on('error', reject);
-
-    streamToRead.pipe(streamToWrite);
+    streamToRead.on('error', () => {
+      streamToRead.close();
+      reject('read error');
+    });
   });
 
   await syncPromise;

@@ -36,7 +36,7 @@ readline.on('line', async (line) => {
     currentDir = await dispatcher(currentDir, command, commandArgs);
   } catch (error) {
     console.log(colors.red, 'Operation failed', colors.reset);
-    // console.log(error);
+    console.log(error);
   }
 
   process.stdout.write(`\nYou are currently in ${colors.green}${currentDir}\n$>${colors.reset} `);
