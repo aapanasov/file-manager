@@ -10,7 +10,11 @@ export function osInfo(arg) {
 
     // TODO: format output
     case '--cpus':
-      info = cpus();
+      const cpusRaw = cpus();
+      info = cpusRaw.map(cpu => ({
+        model: cpu.model.slice(0, 25),
+        speed: (cpu.speed / 1000) + ' GHz'
+      }));
       break;
 
     case '--homedir':
@@ -29,5 +33,6 @@ export function osInfo(arg) {
       throw new Error();
   }
 
-  console.log(info);
+  console.table(info);
+  // console.log(info);
 }
