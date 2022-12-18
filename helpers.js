@@ -16,7 +16,7 @@ export function splitArgs(args) {
 }
 
 export function makePath(currentDir, path) {
-  const pathToGo = isAbsolute(path) ? join(path) : join(currentDir, path);
+  const pathToGo = isAbsolute(path + '/') ? join(path, '/') : join(currentDir, path, '/');
   const normalPath = normalize(pathToGo);
   return normalPath === '\\' ? currentDir.slice(0, 3) : normalPath;
 }
