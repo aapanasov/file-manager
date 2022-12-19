@@ -1,10 +1,10 @@
 import { basename, dirname, join } from 'node:path';
 import { open, rename, rm } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
-import { isExist, makePath, splitArgs } from '../helpers.js';
+import { isExist, makePath, makeFilePath, splitArgs } from '../helpers.js';
 
 export async function cat(currentDir, filePath) {
-  const path = makePath(currentDir, filePath);
+  const path = makeFilePath(currentDir, filePath);
 
   const syncPromise = new Promise((resolve, reject) => {
     const fileStream = createReadStream(path, { encoding: 'utf8' });
@@ -17,7 +17,7 @@ export async function cat(currentDir, filePath) {
 }
 
 export async function add(currentDir, filePath) {
-  const path = makePath(currentDir, filePath);
+  const path = makeFilePath(currentDir, filePath);
 
   try {
     const fileHandle = await open(path, 'ax');
@@ -31,7 +31,7 @@ export async function add(currentDir, filePath) {
 export async function rn(currentDir, args) {
   const [src, dest] = splitArgs(args);
 
-  const filePath = makePath(currentDir, src);
+  const filePath = makeFilePath(currentDir, src);
   const basedir = dirname(filePath);
   const newFilename = basename(makePath(currentDir, dest));
   const newFilePath = join(basedir, newFilename);
@@ -48,7 +48,7 @@ export async function rn(currentDir, args) {
 export async function cp(currentDir, args) {
   const [src, dest] = splitArgs(args);
 
-  const filePath = makePath(currentDir, src);
+  const filePath = makeFilePath(currentDir, src);
   const newDirPath = makePath(currentDir, dest);
   const newFilePath = join(newDirPath, basename(filePath));
 
@@ -77,7 +77,7 @@ export async function cp(currentDir, args) {
 }
 
 export async function remove(currentDir, args) {
-  const filePath = makePath(currentDir, args);
+  const filePath = makeFilePath(currentDir, args);
 
   try {
     await rm(filePath);

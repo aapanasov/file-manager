@@ -1,10 +1,10 @@
 import { createHash } from 'node:crypto';
-import { makePath } from '../helpers.js';
+import { makeFilePath } from '../helpers.js';
 import { createReadStream } from 'node:fs';
 
 
 export async function calcHash(currentDir, args) {
-  const filePath = makePath(currentDir, args);
+  const filePath = makeFilePath(currentDir, args);
 
   const hashSum = (filePath) => new Promise((resolve, reject) => {
     const hash = createHash('sha256');

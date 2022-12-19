@@ -21,6 +21,10 @@ export function makePath(currentDir, path) {
   return normalPath === '\\' ? currentDir.slice(0, 3) : normalPath;
 }
 
+export function makeFilePath(currentDir, path) {
+  return makePath(currentDir, path).slice(0, -1);
+}
+
 export const isExist = async (path) => {
   try {
     await access(path);

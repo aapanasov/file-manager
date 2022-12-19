@@ -1,4 +1,4 @@
-import { join, sep } from 'node:path';
+import { join } from 'node:path';
 import { access, constants, readdir, stat } from 'node:fs/promises';
 import { makePath } from '../helpers.js';
 

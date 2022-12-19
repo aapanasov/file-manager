@@ -8,7 +8,6 @@ export function osInfo(arg) {
       info = EOL.split('').length === 2 ? "\\r\\n" : "\\n";
       break;
 
-    // TODO: format output
     case '--cpus':
       const cpusRaw = cpus();
       info = cpusRaw.map(cpu => ({
@@ -34,5 +33,4 @@ export function osInfo(arg) {
   }
 
   console.table(info);
-  // console.log(info);
 }

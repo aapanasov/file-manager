@@ -10,9 +10,6 @@ import { zip } from './commands/zip.js';
 export async function dispatcher(currentDir, command, commandArgs) {
   let newCurrentDir = currentDir;
 
-  // console.log('Command:', command);
-  // console.log('Args:', commandArgs);
-
   switch (command) {
 
     case 'up':
