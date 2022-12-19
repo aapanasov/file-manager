@@ -3,11 +3,6 @@ import { access, constants, readdir, stat } from 'node:fs/promises';
 import { makePath } from '../helpers.js';
 
 
-export function up(currentDir) {
-  return makePath(currentDir, '..');
-}
-
-
 export async function ls(dir) {
   try {
     const dirContent = await readdir(dir);
@@ -46,9 +41,13 @@ export async function cd(currentDir, destinationDir) {
   const dir = makePath(currentDir, destinationDir);
 
   try {
-    await access(dir, constants.R_OK | constants.W_OK);
+    await access(dir, constants.R_OK);
     return dir;
   } catch (error) {
     throw error;
   }
+}
+
+export async function up(currentDir) {
+  return await cd(currentDir, '..');
 }

@@ -16,7 +16,7 @@ export async function dispatcher(currentDir, command, commandArgs) {
   switch (command) {
 
     case 'up':
-      newCurrentDir = nwd.up(currentDir);
+      newCurrentDir = await nwd.up(currentDir);
       break;
 
     case 'ls':
